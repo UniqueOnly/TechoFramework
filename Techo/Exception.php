@@ -8,6 +8,7 @@ class Techo_Exception extends Exception
 {
     /**
      * 构造器
+     * @access public
      * @param string $message 异常消息
      * @param int $code 异常代码
      */

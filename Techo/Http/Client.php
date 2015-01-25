@@ -6,29 +6,46 @@
  */
 class Techo_Http_Client
 {
-    
+    /**
+     * 请求队列
+     * @access private
+     * @var array
+     */
     private $_requests = array();
-
+    /**
+     * 超时
+     * @access private
+     * @var int
+     */
     private $_timeout  = 20;
-
+    /**
+     * 请求头
+     * @access private
+     * @var array
+     */
     private $_headers  = array();
-
+    /**
+     * 设置
+     * @access private
+     * @var array
+     */
     private $_options  = array(
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_CONNECTTIMEOUT => 20,
         CURLOPT_TIMEOUT        => 20
     );
-
     /**
-     *
-     * @param array $requests
+     * 构造器
+     * @access public
+     * @param array $requests 请求队列
      */
     public function __construct(array $requests)
     {
         $this->_requests = $requests ? $requests : array();
     }
     /**
-     *
+     * 获取设置的超时
+     * @access public
      * @return int
      */
     public function getTimeout()
@@ -36,8 +53,9 @@ class Techo_Http_Client
         return $this->_timeout;
     }
     /**
-     *
-     * @param int $timeout
+     * 设置时间
+     * @access public
+     * @param int $timeout 超时
      * @return Techo_Http_Client
      */
     public function setTimeout($timeout)
@@ -46,7 +64,8 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     *
+     * 获取设置的设置
+     * @access public
      * @return array
      */
     public function getOptions()
@@ -54,8 +73,9 @@ class Techo_Http_Client
         return $this->_options;
     }
     /**
-     *
-     * @param array $options
+     * 设置设置
+     * @access public
+     * @param array $options 设置
      * @return Techo_Http_Client
      */
     public function setOptions(array $options)
@@ -64,16 +84,18 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     *
-     * @return array:
+     * 获取设置的请求头
+     * @access public
+     * @return array
      */
     public function getHeaders()
     {
         return $this->_headers;
     }
     /**
-     *
-     * @param array $headers
+     * 设置请求头
+     * @access public
+     * @param array $headers 请求头
      * @return Techo_Http_Client
      */
     public function setHeaders(array $headers)
@@ -82,8 +104,9 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     *
-     * @param Techo_Http_Request $request
+     * 向队列中加入一个request请求
+     * @access public
+     * @param Techo_Http_Request $request 请求
      * @return Techo_Http_Client
      */
     public function addRequest(Techo_Http_Request $request)
@@ -92,12 +115,13 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     *
-     * @param string $url
-     * @param string $method
-     * @param array $postData
-     * @param array $options
-     * @param array $headers
+     * 向队列中加入一个request请求
+     * @access public
+     * @param string $url url网址
+     * @param string $method 请求类型
+     * @param array $postData post数据
+     * @param array $options 设置
+     * @param array $headers 请求头
      * @return Techo_Http_Client
      */
     public function add($url = null, $method = 'GET', $postData = null, $options = null, $headers = null)
@@ -106,7 +130,8 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     *
+     * 执行Http请求操作
+     * @access public
      * @return array
      */
     public function run()
@@ -116,8 +141,9 @@ class Techo_Http_Client
         }
     }
     /**
-     *
-     * @param Techo_Http_Request $request
+     * 获取设置
+     * @access private
+     * @param Techo_Http_Request $request 请求
      * @return array
      */
     private function _getOptions(Techo_Http_Request $request)
@@ -151,7 +177,8 @@ class Techo_Http_Client
         return $options;
     }
     /**
-     *
+     * 单例Http请求
+     * @access private
      * @return array
      */
     private function _singleHttp()
@@ -171,7 +198,8 @@ class Techo_Http_Client
         );
     }
     /**
-     *
+     * 析构函数
+     * @access public
      */
     public function __destruct()
     {

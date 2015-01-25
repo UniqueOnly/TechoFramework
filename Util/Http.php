@@ -9,8 +9,10 @@ class Util_Http
 
     /**
      * 获取HTTP网址内容GET请求
+     * @access public
+     * @static
      * @param string|array $url            
-     * @param number $timeout                     
+     * @param int $timeout                     
      * @return string|false
      */
     public static function httpGetContents($url, $timeout = 3)
@@ -23,8 +25,9 @@ class Util_Http
 
     /**
      * HTTP网址获取内容GET请求——单URL
+     * @access protected
      * @param string $url
-     * @param number $timeout
+     * @param int $timeout
      * @param string $error
      * @return string|false
      */
@@ -71,13 +74,13 @@ class Util_Http
     }
     /**
      * 提交HTTP网址POST请求
-     * 
+     * @access public
+     * @static
      * @param string|array $url            
      * @param array $data            
-     * @param string $cookieFile
-     *            默认当前目录temp.cookie
+     * @param string $cookieFile 默认当前目录temp.cookie
      * @param string $cookie            
-     * @param number $timeout            
+     * @param int $timeout            
      * @param string $error            
      * @return string|false
      */
@@ -126,9 +129,11 @@ class Util_Http
     }
     /**
      * 获取HTTPS网址内容GET请求
+     * @access public
+     * @static
      * @param string $url            
      * @param string $verify            
-     * @param number $timeout                       
+     * @param int $timeout                       
      * @return string|false
      */
     public static function httpsGetContents($url, $verify = null, $timeout = 3)
@@ -141,9 +146,10 @@ class Util_Http
     
     /**
      * 获取HTTPS网址内容GET请求
+     * @access protected
      * @param string $url
      * @param string $verify
-     * @param number $timeout
+     * @param int $timeout
      * @param string $error
      * @return string|false
      */
@@ -179,12 +185,14 @@ class Util_Http
 
     /**
      * 提交HTTPS网址POST请求
+     * @access public
+     * @static
      * @param string|array $url            
      * @param array $data            
      * @param string $cookieFile 默认当前目录temp.cookie
      * @param string $cookie            
      * @param string $verify            
-     * @param number $timeout                        
+     * @param int $timeout                        
      * @return string|false
      */
     public static function httpsPostContents($url, array $data, $cookieFile = null, $cookie = null, $verify = null, $timeout = 3)
@@ -197,12 +205,13 @@ class Util_Http
     
     /**
      * 提交HTTPS网址POST请求——单URL
+     * @access protected
      * @param string $url
      * @param array $data
      * @param string $cookieFile 默认当前目录temp.cookie
      * @param string $cookie
      * @param string $verify
-     * @param number $timeout
+     * @param int $timeout
      * @param string $error
      * @return string|false
      */
