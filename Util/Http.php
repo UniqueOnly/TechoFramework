@@ -2,7 +2,7 @@
 /**
  * Http请求工具类
  * @author unique@hiunique.com
- * @date 2015-1-25
+ * @copyright 2015-1-26
  */
 class Util_Http
 {

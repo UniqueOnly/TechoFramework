@@ -2,9 +2,7 @@
 /**
  *
  * @author unique@hiunique.com
- * @date 2015-1-26
- * @version 1.0.0
- * @thanks https://github.com/joshfraser/rolling-curl
+ * @copyright 2015-1-26
  */
 class Techo_Http_Client
 {
