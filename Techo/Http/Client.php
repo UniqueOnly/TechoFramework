@@ -1,34 +1,35 @@
 <?php
 /**
- * 
+ *
  * @author unique@hiunique.com
  * @date 2015-1-26
  * @version 1.0.0
  */
 class Techo_Http_Client
 {
-    
+
     private $_requests = array();
-    
-    private $_timeout = 20;
-    
-    private $_options = array(
+
+    private $_timeout  = 20;
+
+    private $_headers  = array();
+
+    private $_options  = array(
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_CONNECTTIMEOUT => 20,
         CURLOPT_TIMEOUT        => 20
     );
-   
-    private $_headers = array();  
+
     /**
-     * 
+     *
      * @param array $requests
      */
     public function __construct(array $requests)
     {
         $this->_requests = $requests ? $requests : array();
-    }  
+    }
     /**
-     * 
+     *
      * @return int
      */
     public function getTimeout()
@@ -36,7 +37,7 @@ class Techo_Http_Client
         return $this->_timeout;
     }
     /**
-     * 
+     *
      * @param int $timeout
      * @return Techo_Http_Client
      */
@@ -46,7 +47,7 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     * 
+     *
      * @return array
      */
     public function getOptions()
@@ -54,7 +55,7 @@ class Techo_Http_Client
         return $this->_options;
     }
     /**
-     * 
+     *
      * @param array $options
      * @return Techo_Http_Client
      */
@@ -64,7 +65,7 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     * 
+     *
      * @return array:
      */
     public function getHeaders()
@@ -72,7 +73,7 @@ class Techo_Http_Client
         return $this->_headers;
     }
     /**
-     * 
+     *
      * @param array $headers
      * @return Techo_Http_Client
      */
@@ -82,7 +83,7 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     * 
+     *
      * @param Techo_Http_Request $request
      * @return Techo_Http_Client
      */
@@ -92,7 +93,7 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     * 
+     *
      * @param string $url
      * @param string $method
      * @param array $postData
@@ -106,7 +107,7 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     * 
+     *
      * @return array
      */
     public function run()
@@ -116,7 +117,7 @@ class Techo_Http_Client
         }
     }
     /**
-     * 
+     *
      * @param Techo_Http_Request $request
      * @return array
      */
@@ -128,7 +129,7 @@ class Techo_Http_Client
         }
         if ((ini_get('safe_mode') == 'Off' || !ini_get('safe_mode')) && ini_get('open_basedir') == '') {
             $options[CURLOPT_FOLLOWLOCATION] = $options[CURLOPT_FOLLOWLOCATION] ? $options[CURLOPT_FOLLOWLOCATION] : 1;
-            $options[CURLOPT_MAXREDIRS] = $options[CURLOPT_MAXREDIRS] ? $options[CURLOPT_MAXREDIRS] : 5;
+            $options[CURLOPT_MAXREDIRS]      = $options[CURLOPT_MAXREDIRS] ? $options[CURLOPT_MAXREDIRS] : 5;
         }
         $headers = $this->_headers;
         if ($request->getHeaders()) {
@@ -136,33 +137,33 @@ class Techo_Http_Client
         }
         $options[CURLOPT_URL] = $request->getUrl();
         if ($request->getPostdata()) {
-            $options[CURLOPT_POST] = 1;
+            $options[CURLOPT_POST]       = 1;
             $options[CURLOPT_POSTFIELDS] = $request->getPostdata();
         }
         if ($headers) {
-            $options[CURLOPT_HEADER] = 0;
+            $options[CURLOPT_HEADER]     = 0;
             $options[CURLOPT_HTTPHEADER] = $headers;
         }
         if (!empty($options[CURLOPT_WRITEFUNCTION])) {
-            $callback = $options[CURLOPT_WRITEFUNCTION];
+            $callback                       = $options[CURLOPT_WRITEFUNCTION];
             unset($options[CURLOPT_WRITEFUNCTION]);
             $options[CURLOPT_WRITEFUNCTION] = $callback;
         }
         return $options;
     }
     /**
-     * 
+     *
      * @return array
      */
     private function _singleHttp()
     {
-        $ch = curl_init();
+        $ch      = curl_init();
         $request = array_shift($this->requests);
         $options = $this->_getOptions($request);
         curl_setopt_array($ch, $options);
         $content = curl_exec($ch);
-        $info = curl_getinfo($ch);
-        $error = curl_error($ch);
+        $info    = curl_getinfo($ch);
+        $error   = curl_error($ch);
         curl_close($ch);
         return array(
             'content' => $content,
@@ -171,11 +172,11 @@ class Techo_Http_Client
         );
     }
     /**
-     * 
+     *
      */
     public function __destruct()
     {
         unset($this->_requests, $this->_timeout, $this->_options, $this->_headers);
-    }    
-	
+    }
+
 }

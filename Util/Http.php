@@ -38,7 +38,7 @@ class Util_Http
             $ch, 
             array(
                 CURLOPT_CONNECTTIMEOUT => $timeout,
-                CURLOPT_TIMEOUT => $timeout,
+                CURLOPT_TIMEOUT        => $timeout,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_FOLLOWLOCATION => true
             )
@@ -50,7 +50,7 @@ class Util_Http
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (!in_array(intval($status / 100), array(2, 3))) {
             $result = false;
-            $error = 'status is ' . $status;
+            $error  = 'status is ' . $status;
         }
         curl_close($ch);
         return $result;
@@ -58,13 +58,13 @@ class Util_Http
     
     protected function multiHttpGetContents(array $url, $timeout = 3)
     {
-        $multiCh = curl_multi_init();
+        $multiCh   = curl_multi_init();
         $responses = array();
         foreach ($url as $key => $val) {
             $chObj[$key] = curl_init($val);
             $chOptions = array(
                 CURLOPT_CONNECTTIMEOUT => $timeout,
-                CURLOPT_TIMEOUT => $timeout,
+                CURLOPT_TIMEOUT        => $timeout,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_FOLLOWLOCATION => true
             );
@@ -97,11 +97,11 @@ class Util_Http
         $ch = curl_init($url);
         $curlArray = array(
             CURLOPT_CONNECTTIMEOUT => $timeout,
-            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_TIMEOUT        => $timeout,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_POST => 1,
-            CURLOPT_POSTFIELDS => $data
+            CURLOPT_POST           => 1,
+            CURLOPT_POSTFIELDS     => $data
         );
         if (!$cookieFile) {
             $cookieFile = dirname(__FILE__) . 'tmp.cookie';
@@ -122,7 +122,7 @@ class Util_Http
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (!in_array(intval($status / 100), array(2, 3))) {
             $result = false;
-            $error = 'status is ' . $status;
+            $error  = 'status is ' . $status;
         }
         curl_close($ch);
         return $result;
@@ -155,13 +155,13 @@ class Util_Http
         $ch = curl_init($url);
         $curlArray = array(
             CURLOPT_CONNECTTIMEOUT => $timeout,
-            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_TIMEOUT        => $timeout,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true
         );
         if ($verify) {
             $curlArray[CURLOPT_SSL_VERIFYPEER] = true;
-            $curlArray[CURLOPT_CAINFO] = $verify;
+            $curlArray[CURLOPT_CAINFO]         = $verify;
         } else {
             $curlArray[CURLOPT_SSL_VERIFYPEER] = false;
             $curlArray[CURLOPT_SSL_VERIFYHOST] = false;
@@ -174,7 +174,7 @@ class Util_Http
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (!in_array(intval($status / 100), array(2, 3))) {
             $result = false;
-            $error = 'status is ' . $status;
+            $error  = 'status is ' . $status;
         }
         curl_close($ch);
         return $result;
@@ -214,15 +214,15 @@ class Util_Http
         $ch = curl_init($url);
         $curlArray = array(
             CURLOPT_CONNECTTIMEOUT => $timeout,
-            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_TIMEOUT        => $timeout,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_POST => 1,
-            CURLOPT_POSTFIELDS => $data
+            CURLOPT_POST           => 1,
+            CURLOPT_POSTFIELDS     => $data
         );
         if ($verify) {
             $curlArray[CURLOPT_SSL_VERIFYPEER] = true;
-            $curlArray[CURLOPT_CAINFO] = $verify;
+            $curlArray[CURLOPT_CAINFO]         = $verify;
         } else {
             $curlArray[CURLOPT_SSL_VERIFYPEER] = false;
             $curlArray[CURLOPT_SSL_VERIFYHOST] = false;
@@ -244,7 +244,7 @@ class Util_Http
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (!in_array(intval($status / 100), array(2, 3))) {
             $result = false;
-            $error = 'status is ' . $status;
+            $error  = 'status is ' . $status;
         }
         curl_close($ch);
         return $result;
