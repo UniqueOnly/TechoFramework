@@ -1,17 +1,14 @@
 <?php
 /**
- * @name Util_Http
- * @description Http请求工具类
+ * Http请求工具类
  * @author unique@hiunique.com
  * @date 2015-1-25
- * @version 1.0.0
  */
 class Util_Http
 {
 
     /**
      * 获取HTTP网址内容GET请求
-     * 
      * @param string|array $url            
      * @param number $timeout                     
      * @return string|false

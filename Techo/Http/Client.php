@@ -4,10 +4,11 @@
  * @author unique@hiunique.com
  * @date 2015-1-26
  * @version 1.0.0
+ * @thanks https://github.com/joshfraser/rolling-curl
  */
 class Techo_Http_Client
 {
-
+    
     private $_requests = array();
 
     private $_timeout  = 20;
