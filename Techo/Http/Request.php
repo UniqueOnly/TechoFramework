@@ -11,13 +11,13 @@ class Techo_Http_Request
      * @access private
      * @var string
      */
-	private $_url      = null;
+	private $_url = null;
 	/**
 	 * 请求类型
 	 * @access private
 	 * @var string
 	 */
-	private $_method   = 'GET';
+	private $_method = 'GET';
 	/**
 	 * post数据
 	 * @access private
@@ -29,13 +29,13 @@ class Techo_Http_Request
 	 * @access private
 	 * @var array
 	 */
-	private $_options  = null;
+	private $_options = null;
 	/**
 	 * 请求头
 	 * @access private
 	 * @var array
 	 */
-	private $_headers  = null;
+	private $_headers = null;
     /**
      * 构造器
      * @access public
@@ -47,11 +47,11 @@ class Techo_Http_Request
      */
 	public function __construct($url = null, $method = 'GET', $postData = null, $options = null, $headers = null)
 	{
-		$this->_url      = $url;
-		$this->_method   = $method;
+		$this->_url = $url;
+		$this->_method = $method;
 		$this->_postData = $postData;
-		$this->_options  = $options;
-		$this->_headers  = $headers;
+		$this->_options = $options;
+		$this->_headers = $headers;
 	}
     /**
      * 获取设置的url地址
