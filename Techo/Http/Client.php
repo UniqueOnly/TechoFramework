@@ -12,18 +12,21 @@ class Techo_Http_Client
      * @var array
      */
     private $_requests = array();
+    
     /**
      * 超时
      * @access private
      * @var float
      */
     private $_timeout  = 0.5;
+    
     /**
      * 请求头
      * @access private
      * @var array
      */
     private $_headers  = array();
+    
     /**
      * 设置
      * @access private
@@ -34,6 +37,7 @@ class Techo_Http_Client
         CURLOPT_CONNECTTIMEOUT => 20,
         CURLOPT_TIMEOUT        => 20
     );
+    
     /**
      * 构造器
      * @access public
@@ -43,6 +47,7 @@ class Techo_Http_Client
     {
         $this->_requests = $requests ? $requests : array();
     }
+    
     /**
      * 获取设置的超时
      * @access public
@@ -52,6 +57,7 @@ class Techo_Http_Client
     {
         return $this->_timeout;
     }
+    
     /**
      * 设置时间
      * @access public
@@ -63,6 +69,7 @@ class Techo_Http_Client
         $this->_timeout = $timeout;
         return $this;
     }
+    
     /**
      * 获取设置的设置
      * @access public
@@ -72,6 +79,7 @@ class Techo_Http_Client
     {
         return $this->_options;
     }
+    
     /**
      * 设置设置
      * @access public
@@ -83,6 +91,7 @@ class Techo_Http_Client
         $this->_options = $this->_options + $options;
         return $this;
     }
+    
     /**
      * 获取设置的请求头
      * @access public
@@ -92,6 +101,7 @@ class Techo_Http_Client
     {
         return $this->_headers;
     }
+    
     /**
      * 设置请求头
      * @access public
@@ -103,6 +113,7 @@ class Techo_Http_Client
         $this->_headers = $this->_headers + $headers;
         return $this;
     }
+    
     /**
      * 向队列中加入一个GET请求
      * @access public
@@ -115,6 +126,7 @@ class Techo_Http_Client
     {
         return $this->add($url, "GET", null, $options, $headers);
     }
+    
     /**
      * 向队列中加入一个POST请求
      * @access public
@@ -128,6 +140,7 @@ class Techo_Http_Client
     {
         return $this->add($url, "POST", $postData, $options, $headers);
     }
+    
     /**
      * 向队列中加入一个Request请求
      * @access public
@@ -139,6 +152,7 @@ class Techo_Http_Client
         $this->_requests[] = $request;
         return $this;
     }
+    
     /**
      * 向队列中加入一个Request请求
      * @access public
@@ -154,6 +168,7 @@ class Techo_Http_Client
         $this->_requests[] = new Techo_Http_Request($url, $method, $postData, $options, $headers);
         return $this;
     }
+    
     /**
      * 获取指定索引的Request
      * @access public
@@ -167,6 +182,7 @@ class Techo_Http_Client
         }
         return false;
     }
+    
     /**
      * 获取指定Request的索引
      * @param Techo_Http_Request $request 请求对象
@@ -176,6 +192,7 @@ class Techo_Http_Client
     {
         return array_search($request, $this->_requests);
     }
+    
     /**
      * 执行Http请求操作
      * @access public
@@ -189,6 +206,7 @@ class Techo_Http_Client
             return $this->_multiHttp();
         }
     }
+    
     /**
      * 获取设置
      * @access private
@@ -225,6 +243,7 @@ class Techo_Http_Client
         }
         return $options;
     }
+    
     /**
      * 单例Http请求
      * @access private
@@ -242,6 +261,7 @@ class Techo_Http_Client
         curl_close($ch);
         return compact($content, $info, $error);
     }
+    
     /**
      * 并发Http请求
      * @access private
@@ -280,6 +300,7 @@ class Techo_Http_Client
         curl_multi_close($mh);
         return $responses;
     }
+    
     /**
      * 析构函数
      * @access public
