@@ -15,9 +15,9 @@ class Techo_Http_Client
     /**
      * 超时
      * @access private
-     * @var int
+     * @var float
      */
-    private $_timeout  = 20;
+    private $_timeout  = 0.5;
     /**
      * 请求头
      * @access private
@@ -242,18 +242,24 @@ class Techo_Http_Client
         curl_close($ch);
         return compact($content, $info, $error);
     }
+    /**
+     * 并发Http请求
+     * @access private
+     * @return array
+     */
     private function _multiHttp()
     {
         $mh = curl_multi_init();
         $requestMap = array();
         $responses = array();
-        foreach ($this->_requests as $request) {
+        foreach ($this->_requests as $key => $request) {
             $ch = curl_init();
             $options = $this->_getOptions($request);
             curl_setopt_array($ch, $options);
             curl_multi_add_handle($mh, $ch);
-            $requestMap[(string)$ch] = $request;
+            $requestMap[(string)$ch] = $key;
         }
+        $requestsCnt = count($mh);
         do {
             while(($code = curl_multi_exec($mh, $active)) == CURLM_CALL_MULTI_PERFORM);
             if ($code != CURLM_OK) {
@@ -264,9 +270,15 @@ class Techo_Http_Client
                 $error = curl_errno($done['handle']);
                 $content = curl_multi_getcontent($done['handle']);
                 $responses[$requestMap[(string)$done['handle']]] = compact($content, $info, $error);
-                
+                curl_multi_remove_handle($mh, $done['handle']);
+                curl_close($done['handle']);
+            }
+            if ($active) {
+                curl_multi_select($mh, $this->_timeout);
             }
         } while($active);
+        curl_multi_close($mh);
+        return $responses;
     }
     /**
      * 析构函数
