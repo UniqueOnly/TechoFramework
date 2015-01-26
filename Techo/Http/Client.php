@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Http客户端请求
  * @author unique@hiunique.com
  * @copyright 2015-1-26
  */
@@ -104,9 +104,34 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     * 向队列中加入一个request请求
+     * 向队列中加入一个GET请求
      * @access public
-     * @param Techo_Http_Request $request 请求
+     * @param string $url url网址
+     * @param array $options 设置
+     * @param array $headers 请求头
+     * @return Techo_Http_Client
+     */
+    public function addGetRequest($url = null, $options = null, $headers = null)
+    {
+        return $this->add($url, "GET", null, $options, $headers);
+    }
+    /**
+     * 向队列中加入一个POST请求
+     * @access public
+     * @param string $url url网址
+     * @param string $postData POST数据
+     * @param string $options 设置
+     * @param string $headers 请求头
+     * @return Techo_Http_Client
+     */
+    public function addPostRequest($url = null, $postData = null, $options = null, $headers = null)
+    {
+        return $this->add($url, "POST", $postData, $options, $headers);
+    }
+    /**
+     * 向队列中加入一个Request请求
+     * @access public
+     * @param Techo_Http_Request $request 请求对象
      * @return Techo_Http_Client
      */
     public function addRequest(Techo_Http_Request $request)
@@ -115,11 +140,11 @@ class Techo_Http_Client
         return $this;
     }
     /**
-     * 向队列中加入一个request请求
+     * 向队列中加入一个Request请求
      * @access public
      * @param string $url url网址
      * @param string $method 请求类型
-     * @param array $postData post数据
+     * @param array $postData POST数据
      * @param array $options 设置
      * @param array $headers 请求头
      * @return Techo_Http_Client
@@ -130,6 +155,28 @@ class Techo_Http_Client
         return $this;
     }
     /**
+     * 获取指定索引的Request
+     * @access public
+     * @param int $key 索引
+     * @return array|false
+     */
+    public function getRequest($key)
+    {
+        if (array_key_exists($key, $this->_requests)) {
+            return $this->_requests[$key];
+        }
+        return false;
+    }
+    /**
+     * 获取指定Request的索引
+     * @param Techo_Http_Request $request 请求对象
+     * @return int|false
+     */
+    public function getKey(Techo_Http_Request $request)
+    {
+        return array_search($request, $this->_requests);
+    }
+    /**
      * 执行Http请求操作
      * @access public
      * @return array
@@ -138,12 +185,14 @@ class Techo_Http_Client
     {
         if(count($this->_requests) == 1) {
             return $this->_singleHttp();
+        } else {
+            return $this->_multiHttp();
         }
     }
     /**
      * 获取设置
      * @access private
-     * @param Techo_Http_Request $request 请求
+     * @param Techo_Http_Request $request 请求对象
      * @return array
      */
     private function _getOptions(Techo_Http_Request $request)
@@ -191,11 +240,33 @@ class Techo_Http_Client
         $info    = curl_getinfo($ch);
         $error   = curl_error($ch);
         curl_close($ch);
-        return array(
-            'content' => $content,
-            'info'    => $info,
-            'error'   => $error
-        );
+        return compact($content, $info, $error);
+    }
+    private function _multiHttp()
+    {
+        $mh = curl_multi_init();
+        $requestMap = array();
+        $responses = array();
+        foreach ($this->_requests as $request) {
+            $ch = curl_init();
+            $options = $this->_getOptions($request);
+            curl_setopt_array($ch, $options);
+            curl_multi_add_handle($mh, $ch);
+            $requestMap[(string)$ch] = $request;
+        }
+        do {
+            while(($code = curl_multi_exec($mh, $active)) == CURLM_CALL_MULTI_PERFORM);
+            if ($code != CURLM_OK) {
+            	break;
+            }
+            while ($done = curl_multi_info_read($mh)) {
+                $info = curl_getinfo($done['handle']);
+                $error = curl_errno($done['handle']);
+                $content = curl_multi_getcontent($done['handle']);
+                $responses[$requestMap[(string)$done['handle']]] = compact($content, $info, $error);
+                
+            }
+        } while($active);
     }
     /**
      * 析构函数
