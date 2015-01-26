@@ -46,7 +46,7 @@ class Techo_Http_Client
     /**
      * 获取设置的超时
      * @access public
-     * @return int
+     * @return float
      */
     public function getTimeout()
     {
@@ -55,7 +55,7 @@ class Techo_Http_Client
     /**
      * 设置时间
      * @access public
-     * @param int $timeout 超时
+     * @param float $timeout 超时
      * @return Techo_Http_Client
      */
     public function setTimeout($timeout)
