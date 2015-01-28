@@ -1,6 +1,7 @@
 <?php
 /**
  * Http客户端请求
+ * 
  * @author unique@hiunique.com
  * @copyright 2015-1-26
  */
@@ -8,6 +9,7 @@ class Techo_Http_Client
 {
     /**
      * 请求队列
+     * 
      * @access private
      * @var array
      */
@@ -15,6 +17,7 @@ class Techo_Http_Client
     
     /**
      * 超时
+     * 
      * @access private
      * @var float
      */
@@ -22,6 +25,7 @@ class Techo_Http_Client
     
     /**
      * 请求头
+     * 
      * @access private
      * @var array
      */
@@ -29,6 +33,7 @@ class Techo_Http_Client
     
     /**
      * 设置
+     * 
      * @access private
      * @var array
      */
@@ -40,6 +45,7 @@ class Techo_Http_Client
     
     /**
      * 构造器
+     * 
      * @access public
      * @param array $requests 请求队列
      */
@@ -50,6 +56,7 @@ class Techo_Http_Client
     
     /**
      * 获取设置的超时
+     * 
      * @access public
      * @return float
      */
@@ -60,6 +67,7 @@ class Techo_Http_Client
     
     /**
      * 设置时间
+     * 
      * @access public
      * @param float $timeout 超时
      * @return Techo_Http_Client
@@ -72,6 +80,7 @@ class Techo_Http_Client
     
     /**
      * 获取设置的设置
+     * 
      * @access public
      * @return array
      */
@@ -82,6 +91,7 @@ class Techo_Http_Client
     
     /**
      * 设置设置
+     * 
      * @access public
      * @param array $options 设置
      * @return Techo_Http_Client
@@ -94,6 +104,7 @@ class Techo_Http_Client
     
     /**
      * 获取设置的请求头
+     * 
      * @access public
      * @return array
      */
@@ -104,6 +115,7 @@ class Techo_Http_Client
     
     /**
      * 设置请求头
+     * 
      * @access public
      * @param array $headers 请求头
      * @return Techo_Http_Client
@@ -116,6 +128,7 @@ class Techo_Http_Client
     
     /**
      * 向队列中加入一个GET请求
+     * 
      * @access public
      * @param string $url url网址
      * @param array $options 设置
@@ -129,6 +142,7 @@ class Techo_Http_Client
     
     /**
      * 向队列中加入一个POST请求
+     * 
      * @access public
      * @param string $url url网址
      * @param string $postData POST数据
@@ -143,6 +157,7 @@ class Techo_Http_Client
     
     /**
      * 向队列中加入一个Request请求
+     * 
      * @access public
      * @param Techo_Http_Request $request 请求对象
      * @return Techo_Http_Client
@@ -155,6 +170,7 @@ class Techo_Http_Client
     
     /**
      * 向队列中加入一个Request请求
+     * 
      * @access public
      * @param string $url url网址
      * @param string $method 请求类型
@@ -171,6 +187,7 @@ class Techo_Http_Client
     
     /**
      * 获取指定索引的Request
+     * 
      * @access public
      * @param int $key 索引
      * @return array|false
@@ -185,6 +202,7 @@ class Techo_Http_Client
     
     /**
      * 获取指定Request的索引
+     * 
      * @param Techo_Http_Request $request 请求对象
      * @return int|false
      */
@@ -195,6 +213,7 @@ class Techo_Http_Client
     
     /**
      * 执行Http请求操作
+     * 
      * @access 
      * @throws Techo_Http_Exception
      * @return array 关联数组content，info，error
@@ -211,6 +230,7 @@ class Techo_Http_Client
     
     /**
      * 获取设置
+     * 
      * @access private
      * @param Techo_Http_Request $request 请求对象
      * @return array
@@ -248,6 +268,7 @@ class Techo_Http_Client
     
     /**
      * 单例Http请求
+     * 
      * @access private
      * @return array
      */
@@ -266,6 +287,7 @@ class Techo_Http_Client
     
     /**
      * 并发Http请求
+     * 
      * @access private
      * @return array
      */
@@ -305,6 +327,7 @@ class Techo_Http_Client
     
     /**
      * 析构函数
+     * 
      * @access public
      */
     public function __destruct()

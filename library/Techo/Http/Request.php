@@ -1,6 +1,7 @@
 <?php
 /**
  * Http请求类
+ * 
  * @author unique@hiunique.com
  * @copyright 2015-1-26
  */
@@ -8,36 +9,42 @@ class Techo_Http_Request
 {
     /**
      * url地址
+     * 
      * @access private
      * @var string
      */
 	private $_url = null;
 	/**
 	 * 请求类型
+	 * 
 	 * @access private
 	 * @var string
 	 */
 	private $_method = 'GET';
 	/**
 	 * post数据
+	 * 
 	 * @access private
 	 * @var array
 	 */
 	private $_postData = null;
 	/**
 	 * 设置
+	 * 
 	 * @access private
 	 * @var array
 	 */
 	private $_options = null;
 	/**
 	 * 请求头
+	 * 
 	 * @access private
 	 * @var array
 	 */
 	private $_headers = null;
     /**
      * 构造器
+     * 
      * @access public
      * @param string $url url地址
      * @param string $method 请求类型
@@ -55,6 +62,7 @@ class Techo_Http_Request
 	}
     /**
      * 获取设置的url地址
+     * 
      * @access public
      * @return string
      */
@@ -64,6 +72,7 @@ class Techo_Http_Request
     }
     /**
      * 设置url地址
+     * 
      * @access public
      * @param string $url url地址
      * @return Techo_Http_Request
@@ -75,6 +84,7 @@ class Techo_Http_Request
     }
     /**
      * 获取设置的请求类型
+     * 
      * @access public
      * @return string
      */
@@ -84,6 +94,7 @@ class Techo_Http_Request
     }
     /**
      * 设置请求类型
+     * 
      * @access public
      * @param string $method 请求类型
      * @return Techo_Http_Request
@@ -95,6 +106,7 @@ class Techo_Http_Request
     }
     /**
      * 获取设置的post数据
+     * 
      * @access public
      * @return array
      */
@@ -104,6 +116,7 @@ class Techo_Http_Request
     }
     /**
      * 设置post数据
+     * 
      * @access public
      * @param array $postData post数据
      * @return Techo_Http_Request
@@ -115,6 +128,7 @@ class Techo_Http_Request
     }
     /**
      * 获取设置的设置
+     * 
      * @access public
      * @return array
      */
@@ -124,6 +138,7 @@ class Techo_Http_Request
     }
     /**
      * 设置设置
+     * 
      * @access public
      * @param array $options 设置
      * @return Techo_Http_Request
@@ -135,6 +150,7 @@ class Techo_Http_Request
     }
     /**
      * 获取设置的请求头
+     * 
      * @access public
      * @return array
      */
@@ -144,6 +160,7 @@ class Techo_Http_Request
     }
     /**
      * 设置请求头
+     * 
      * @access public
      * @param array $headers 请求头
      * @return Techo_Http_Request
@@ -155,6 +172,7 @@ class Techo_Http_Request
     }
     /**
      * 析构函数
+     * 
      * @access public
      */
     public function __destruct()
