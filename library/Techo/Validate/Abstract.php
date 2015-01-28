@@ -1,4 +1,10 @@
 <?php
+/**
+ * Validate 抽象类
+ * 
+ * @author unique@hiunique.com
+ * @copyright 2015-1-29
+ */
 abstract class Techo_Validate_Abstract implements Techo_Validate_Interface
 {
     protected $_content;
