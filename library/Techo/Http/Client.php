@@ -38,6 +38,8 @@ class Techo_Http_Client
      * @var array
      */
     private $_options = array(
+        CURLOPT_SSL_VERIFYHOST => 0,
+        CURLOPT_SSL_VERIFYPEER => 0,
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_CONNECTTIMEOUT => 20,
         CURLOPT_TIMEOUT        => 20
