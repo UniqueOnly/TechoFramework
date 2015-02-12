@@ -1,5 +1,6 @@
-<?php 
-class Techo_Form_Element
+<?php
+namespace Techo\Form;
+class Element
 {
     
 }

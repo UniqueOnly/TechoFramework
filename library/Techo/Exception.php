@@ -5,7 +5,8 @@
  * @author unique@hiunique.com
  * @copyright 2015-1-26
  */
-class Techo_Exception extends Exception
+namespace Techo;
+class Exception extends \Exception
 {
     /**
      * 构造器

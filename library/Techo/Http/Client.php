@@ -5,7 +5,8 @@
  * @author unique@hiunique.com
  * @copyright 2015-1-26
  */
-class Techo_Http_Client
+namespace Techo\Http;
+class Client
 {
     /**
      * 请求队列
@@ -167,7 +168,7 @@ class Techo_Http_Client
      * @param Techo_Http_Request $request 请求对象
      * @return Techo_Http_Client
      */
-    public function addRequest(Techo_Http_Request $request)
+    public function addRequest(Request $request)
     {
         $this->_requests[] = $request;
         return $this;
@@ -186,7 +187,7 @@ class Techo_Http_Client
      */
     public function add($url = null, $method = 'GET', $postData = null, $options = null, $headers = null)
     {
-        $this->_requests[] = new Techo_Http_Request($url, $method, $postData, $options, $headers);
+        $this->_requests[] = new Request($url, $method, $postData, $options, $headers);
         return $this;
     }
     
@@ -211,7 +212,7 @@ class Techo_Http_Client
      * @param Techo_Http_Request $request 请求对象
      * @return int|false
      */
-    public function getKey(Techo_Http_Request $request)
+    public function getKey(Request $request)
     {
         return array_search($request, $this->_requests);
     }
@@ -231,7 +232,7 @@ class Techo_Http_Client
         } elseif (count($this->_requests) > 1) {
             return $this->_multiHttp();
         }
-        throw new Techo_Http_Exception('Must Run At Least One Http Request');
+        throw new Exception('Must Run At Least One Http Request');
     }
     
     /**
@@ -241,7 +242,7 @@ class Techo_Http_Client
      * @param Techo_Http_Request $request 请求对象
      * @return array
      */
-    private function _getOptions(Techo_Http_Request $request)
+    private function _getOptions(Request $request)
     {
         $options = $this->_options;
         if ($request->getOptions()) {

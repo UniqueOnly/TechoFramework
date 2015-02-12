@@ -5,7 +5,8 @@
  * @author unique@hiunique.com
  * @copyright 2015-1-26
  */
-class Techo_Http_Request
+namespace Techo\Http;
+class Request
 {
     /**
      * url地址
