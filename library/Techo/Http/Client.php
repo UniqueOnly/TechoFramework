@@ -51,9 +51,12 @@ class Techo_Http_Client
      * @access public
      * @param array $requests 请求队列
      */
-    public function __construct(array $requests)
+    public function __construct(array $requests = array())
     {
-        $this->_requests = $requests ? $requests : array();
+        if (!extension_loaded('curl')) {
+            throw new Techo_Http_Exception('CURL extension may be not be installed');
+        }
+        $this->_requests = $requests;
     }
     
     /**
@@ -223,6 +226,7 @@ class Techo_Http_Client
     public function run()
     {
         if(count($this->_requests) == 1) {
+            var_dump($this->_singleHttp());exit();
             return $this->_singleHttp();
         } elseif (count($this->_requests) > 1) {
             return $this->_multiHttp();
@@ -244,8 +248,8 @@ class Techo_Http_Client
             $options = $options + $request->getOptions();
         }
         if ((ini_get('safe_mode') == 'Off' || !ini_get('safe_mode')) && ini_get('open_basedir') == '') {
-            $options[CURLOPT_FOLLOWLOCATION] = $options[CURLOPT_FOLLOWLOCATION] ? $options[CURLOPT_FOLLOWLOCATION] : 1;
-            $options[CURLOPT_MAXREDIRS] = $options[CURLOPT_MAXREDIRS] ? $options[CURLOPT_MAXREDIRS] : 5;
+            $options[CURLOPT_FOLLOWLOCATION] = isset($options[CURLOPT_FOLLOWLOCATION]) ? $options[CURLOPT_FOLLOWLOCATION] : 1;
+            $options[CURLOPT_MAXREDIRS] = isset($options[CURLOPT_MAXREDIRS]) ? $options[CURLOPT_MAXREDIRS] : 5;
         }
         $headers = $this->_headers;
         if ($request->getHeaders()) {
@@ -277,14 +281,18 @@ class Techo_Http_Client
     private function _singleHttp()
     {
         $ch = curl_init();
-        $request = array_shift($this->requests);
+        $request = array_shift($this->_requests);
         $options = $this->_getOptions($request);
         curl_setopt_array($ch, $options);
         $content = curl_exec($ch);
         $info = curl_getinfo($ch);
         $error = curl_error($ch);
         curl_close($ch);
-        return compact($content, $info, $error);
+        return array(
+            'content' => $content,
+            'info' => $info,
+            'error' => $error
+        );
     }
     
     /**
@@ -315,7 +323,11 @@ class Techo_Http_Client
                 $info = curl_getinfo($done['handle']);
                 $error = curl_errno($done['handle']);
                 $content = curl_multi_getcontent($done['handle']);
-                $responses[$requestMap[(string)$done['handle']]] = compact($content, $info, $error);
+                $responses[$requestMap[(string)$done['handle']]] = array(
+                    'content' => $content,
+                    'info' => $info,
+                    'error' => $error
+                );
                 curl_multi_remove_handle($mh, $done['handle']);
                 curl_close($done['handle']);
             }
