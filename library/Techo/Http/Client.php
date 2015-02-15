@@ -39,8 +39,6 @@ class Client
      * @var array
      */
     private $_options = array(
-        CURLOPT_SSL_VERIFYHOST => 0,
-        CURLOPT_SSL_VERIFYPEER => 0,
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_CONNECTTIMEOUT => 20,
         CURLOPT_TIMEOUT        => 20
@@ -55,7 +53,7 @@ class Client
     public function __construct(array $requests = array())
     {
         if (!extension_loaded('curl')) {
-            throw new Techo_Http_Exception('CURL extension may be not be installed');
+            throw new Exception('CURL extension may be not be installed');
         }
         $this->_requests = $requests;
     }
