@@ -1,6 +1,5 @@
 <?php
 namespace Techo;
-require_once 'Exception.php';
 class Server
 {
     public static function autoLoad($class)

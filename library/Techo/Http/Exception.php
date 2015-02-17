@@ -6,7 +6,6 @@
  * @copyright 2015-1-26
  */
 namespace Techo\Http;
-use Techo\Exception;
-class Exception extends Exception 
+class Exception extends \Techo\Exception 
 {
 }

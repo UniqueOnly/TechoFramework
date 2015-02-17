@@ -53,7 +53,7 @@ class Client
     public function __construct(array $requests = array())
     {
         if (!extension_loaded('curl')) {
-            throw new Exception('CURL extension may be not be installed');
+            throw new \Techo\Http\Exception('CURL extension may be not be installed');
         }
         $this->_requests = $requests;
     }
@@ -166,7 +166,7 @@ class Client
      * @param Techo_Http_Request $request 请求对象
      * @return Techo_Http_Client
      */
-    public function addRequest(Request $request)
+    public function addRequest(\Techo\Http\Request $request)
     {
         $this->_requests[] = $request;
         return $this;
@@ -210,7 +210,7 @@ class Client
      * @param Techo_Http_Request $request 请求对象
      * @return int|false
      */
-    public function getKey(Request $request)
+    public function getKey(\Techo\Http\Request $request)
     {
         return array_search($request, $this->_requests);
     }
@@ -240,7 +240,7 @@ class Client
      * @param Techo_Http_Request $request 请求对象
      * @return array
      */
-    private function _getOptions(Request $request)
+    private function _getOptions(\Techo\Http\Request $request)
     {
         $options = $this->_options;
         if ($request->getOptions()) {
