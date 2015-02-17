@@ -5,7 +5,8 @@
  * @author unique@hiunique.com
  * @copyright 2015-1-29
  */
-abstract class Techo_Validate_Abstract implements Techo_Validate_Interface
+namespace Techo\Validate;
+abstract class Base implements \Techo\Validate\IValidate
 {
     protected $_content;
     

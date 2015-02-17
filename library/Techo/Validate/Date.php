@@ -1,5 +1,6 @@
 <?php 
-class Techo_Validate_Date extends Techo_Validate_Abstract
+namespace Techo\Validate;
+class Date extends \Techo\Validate\Base
 {
     public function getMessages()
     {

@@ -5,7 +5,8 @@
  * @author unique@hiunique.com
  * @copyright 2015-1-29
  */
-interface Techo_Validate_Interface
+namespace Techo\Validate;
+interface IValidate
 {
     public function isValid($content);
     public function setMessages();
