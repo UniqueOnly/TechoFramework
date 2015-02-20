@@ -74,7 +74,7 @@ class Client
      * 
      * @access public
      * @param float $timeout 超时
-     * @return Techo_Http_Client
+     * @return \Techo\Http\Client
      */
     public function setTimeout($timeout)
     {
@@ -98,7 +98,7 @@ class Client
      * 
      * @access public
      * @param array $options 设置
-     * @return Techo_Http_Client
+     * @return \Techo\Http\Client
      */
     public function setOptions(array $options)
     {
@@ -122,7 +122,7 @@ class Client
      * 
      * @access public
      * @param array $headers 请求头
-     * @return Techo_Http_Client
+     * @return \Techo\Http\Client
      */
     public function setHeaders(array $headers)
     {
@@ -137,7 +137,7 @@ class Client
      * @param string $url url网址
      * @param array $options 设置
      * @param array $headers 请求头
-     * @return Techo_Http_Client
+     * @return \Techo\Http\Client
      */
     public function addGetRequest($url = null, $options = null, $headers = null)
     {
@@ -152,7 +152,7 @@ class Client
      * @param string $postData POST数据
      * @param string $options 设置
      * @param string $headers 请求头
-     * @return Techo_Http_Client
+     * @return \Techo\Http\Client
      */
     public function addPostRequest($url = null, $postData = null, $options = null, $headers = null)
     {
@@ -163,8 +163,8 @@ class Client
      * 向队列中加入一个Request请求
      * 
      * @access public
-     * @param Techo_Http_Request $request 请求对象
-     * @return Techo_Http_Client
+     * @param \Techo\Http\Request $request 请求对象
+     * @return \Techo\Http\Client
      */
     public function addRequest(\Techo\Http\Request $request)
     {
@@ -181,7 +181,7 @@ class Client
      * @param array $postData POST数据
      * @param array $options 设置
      * @param array $headers 请求头
-     * @return Techo_Http_Client
+     * @return \Techo\Http\Client
      */
     public function add($url = null, $method = 'GET', $postData = null, $options = null, $headers = null)
     {
@@ -207,7 +207,7 @@ class Client
     /**
      * 获取指定Request的索引
      * 
-     * @param Techo_Http_Request $request 请求对象
+     * @param \Techo\Http\Request $request 请求对象
      * @return int|false
      */
     public function getKey(\Techo\Http\Request $request)
@@ -219,7 +219,7 @@ class Client
      * 执行Http请求操作
      * 
      * @access 
-     * @throws Techo_Http_Exception
+     * @throws \Techo\Http\Exception
      * @return array 关联数组content，info，error
      */
     public function run()
@@ -237,7 +237,7 @@ class Client
      * 获取设置
      * 
      * @access private
-     * @param Techo_Http_Request $request 请求对象
+     * @param \Techo\Http\Request $request 请求对象
      * @return array
      */
     private function _getOptions(\Techo\Http\Request $request)

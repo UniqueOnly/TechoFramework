@@ -76,7 +76,7 @@ class Request
      * 
      * @access public
      * @param string $url url地址
-     * @return Techo_Http_Request
+     * @return \Techo\Http\Request
      */
     public function setUrl($url)
     {
@@ -98,7 +98,7 @@ class Request
      * 
      * @access public
      * @param string $method 请求类型
-     * @return Techo_Http_Request
+     * @return \Techo\Http\Request
      */
     public function setMethod($method)
     {
@@ -120,7 +120,7 @@ class Request
      * 
      * @access public
      * @param array $postData post数据
-     * @return Techo_Http_Request
+     * @return \Techo\Http\Request
      */
     public function setPostdata($postData)
     {
@@ -142,7 +142,7 @@ class Request
      * 
      * @access public
      * @param array $options 设置
-     * @return Techo_Http_Request
+     * @return \Techo\Http\Request
      */
     public function setOptions($options)
     {
@@ -164,7 +164,7 @@ class Request
      * 
      * @access public
      * @param array $headers 请求头
-     * @return Techo_Http_Request
+     * @return \Techo\Http\Request
      */
     public function setHeaders($headers)
     {
