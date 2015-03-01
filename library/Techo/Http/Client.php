@@ -225,7 +225,6 @@ class Client
     public function run()
     {
         if(count($this->_requests) == 1) {
-            var_dump($this->_singleHttp());exit();
             return $this->_singleHttp();
         } elseif (count($this->_requests) > 1) {
             return $this->_multiHttp();
