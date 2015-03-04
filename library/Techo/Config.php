@@ -7,7 +7,7 @@
  * @copyright 2015-2-20
  */
 namespace Techo;
-class Config implements \ArrayAccess
+class Config
 {
     /**
      * 配置文件目录路径
@@ -46,7 +46,7 @@ class Config implements \ArrayAccess
      * @param string $key 文件名
      * @return boolean
      */
-    public function offsetExists($key)
+    public function isExists($key)
     {
         return empty($this->_configs[$key]) ? false : true;
     }
@@ -58,7 +58,7 @@ class Config implements \ArrayAccess
      * @param string $key 文件名
      * @return array
      */
-    public function offsetGet($key)
+    public function get($key)
     {
         if (empty($this->_configs[$key])) {
             $filePath = $this->_path . DIRECTORY_SEPARATOR . $key . '.php';
@@ -76,7 +76,7 @@ class Config implements \ArrayAccess
      * @param array $value 配置值
      * @return \Techo\Config
      */
-    public function offsetSet($key, $value = array())
+    public function set($key, $value = array())
     {
         file_put_contents($this->_path . DIRECTORY_SEPARATOR . $key . '.php', "<?php\r\n return " . var_export($value, true) . ';');
         $this->_configs[$key] = $value;
@@ -90,7 +90,7 @@ class Config implements \ArrayAccess
      * @param string $key 文件名
      * @return \Techo\Config
      */
-    public function offsetUnset($key)
+    public function delete($key)
     {
         if (isset($this->_configs[$key])) {
             unset($this->_configs[$key]);
@@ -108,7 +108,7 @@ class Config implements \ArrayAccess
      * @access public
      * @return array
      */
-    public function offsetGetAll()
+    public function getAll()
     {
         if ($configDir = opendir($this->_path)) {
             while (false !== ($file = readdir($configDir))) {
