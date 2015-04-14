@@ -305,6 +305,7 @@ class Client
         $requestMap = array();
         $responses = array();
         foreach ($this->_requests as $key => $request) {
+            unset($this->_requests[$key]);
             $ch = curl_init();
             $options = $this->_getOptions($request);
             curl_setopt_array($ch, $options);
