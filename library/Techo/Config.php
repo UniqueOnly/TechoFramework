@@ -33,10 +33,14 @@ class Config
      */
     public function __construct($path = null)
     {
-        if (!is_dir($path)) {
-            mkdir($path, 0777);
-        }
-        $this->_path = $path;
+        if (is_dir($path)) {
+            if (!file_exists($path)) {
+                mkdir($path, 0777);;
+            }
+            $this->_path = $path;
+        } else {
+            throw new \Techo\Exception('The path is an unvalid path');
+        }    
     }
 
     /**
