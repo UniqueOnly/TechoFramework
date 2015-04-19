@@ -1,6 +1,6 @@
 <?php
+
 namespace Techo;
-require_once 'Config.php';
 class Server
 {
     
