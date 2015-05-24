@@ -254,8 +254,8 @@ class Client
             $headers = $headers + $request->getHeaders();
         }
         $options[CURLOPT_URL] = $request->getUrl();
+        $options[CURLOPT_CUSTOMREQUEST] = $request->getMethod();
         if ($request->getPostdata()) {
-            $options[CURLOPT_POST] = 1;
             $options[CURLOPT_POSTFIELDS] = $request->getPostdata();
         }
         if ($headers) {

@@ -102,7 +102,7 @@ class Request
      */
     public function setMethod($method)
     {
-        $this->_method = $method;
+        $this->_method = strtoupper($method);
         return $this;
     }
     /**
