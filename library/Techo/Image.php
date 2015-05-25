@@ -5,7 +5,7 @@ namespace Techo;
  * @author unique@hiunique.com
  * @copyright 2015-5-24
  */
-class Image
+class Image implements \Techo\Image\IImage
 {
     /**
      * 源图片资源
@@ -127,7 +127,7 @@ class Image
      * @throws \Techo\Image\Exception
      * @return \Techo\Image
      */
-    public function setImage($imageSrc)
+    public function setImage($imgSrc)
     {
         if ($imgSrc && is_file($imgSrc)) {
             $imgInfo = self::getImgInfo($imgSrc);
