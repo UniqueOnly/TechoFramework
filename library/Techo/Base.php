@@ -44,7 +44,7 @@ abstract class Base
         if (method_exists($this, $args)) {
             return $this->$name($args);
         }
-        throw new Techo_Exception('The method you called isn\'t exist');
+        throw new \Techo\Exception('The method you called isn\'t exist');
     }
     public function __set($name, $value)
     {

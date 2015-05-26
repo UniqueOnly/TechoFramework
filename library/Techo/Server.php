@@ -49,16 +49,5 @@ class Server
         } else {
             throw new \Techo\Exception('The path is an unvalid path');
         }
-        /* if (!empty($class)) {
-            $class = ltrim($class, '\\');
-            $file = get_include_path() . str_replace(array('_', '\\'), DIRECTORY_SEPARATOR, $class) . '.php';
-            if (file_exists($file)) {
-                include $file;
-            } else {
-                throw new \Techo\Exception('The class isn\'t exist');
-            }
-        } else {
-            throw new \Techo\Exception('The class isn\'t exist');
-        } */
     }
 }
