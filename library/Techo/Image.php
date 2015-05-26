@@ -88,7 +88,15 @@ class Image implements \Techo\Image\IImage
         
     }
     
-    private function validateNumber($src, $range = array())
+    /**
+     * 校验数值类型
+     * 
+     * @access protected
+     * @param number $src
+     * @param number $range
+     * @return number
+     */
+    protected function _validateNumber($src, $range = array())
     {
         if ($src >= $range['min'] && $src <= $range['max']) {
             return $src;
@@ -113,8 +121,8 @@ class Image implements \Techo\Image\IImage
     public function resize($srcWPos = 0, $srcHPos = 0, $dstWidth = 0, $dstHeight = 0, $path = null)
     {
         if ($this->_resource) {
-            $srcWPos = $this->validateNumber($srcWPos, array('min' => 0, 'max' => $this->_imgInfo['width']));
-            $srcHPos = $this->validateNumber($srcHPos, array('min' => 0, 'max' => $this->_imgInfo['height']));
+            $srcWPos = $this->_validateNumber($srcWPos, array('min' => 0, 'max' => $this->_imgInfo['width']));
+            $srcHPos = $this->_validateNumber($srcHPos, array('min' => 0, 'max' => $this->_imgInfo['height']));
             $srcWidth = $dstWidth + $srcWPos > $this->_imgInfo['width'] ? $this->_imgInfo['width'] - $srcWPos : $dstWidth;
             $srcHeight = $dstHeight + $srcHPos > $this->_imgInfo['height'] ? $this->_imgInfo['height'] - $srcHPos : $dstHeight;
             $dstImg = imagecreatetruecolor($dstWidth, $dstHeight);
@@ -186,9 +194,9 @@ class Image implements \Techo\Image\IImage
     {
         if (is_file($imgSrc)) {
             if ($this->_resource) {
-                $dstWPos = $this->validateNumber($dstWPos, array('min' => 0, 'max' => $this->_imgInfo['width']));
-                $dstHPos = $this->validateNumber($dstHPos, array('min' => 0, 'max' => $this->_imgInfo['height']));
-                $pct = $this->validateNumber($pct, array('min' => 0, 'max' => 100));
+                $dstWPos = $this->_validateNumber($dstWPos, array('min' => 0, 'max' => $this->_imgInfo['width']));
+                $dstHPos = $this->_validateNumber($dstHPos, array('min' => 0, 'max' => $this->_imgInfo['height']));
+                $pct = $this->_validateNumber($pct, array('min' => 0, 'max' => 100));
                 $imgSrcInfo = self::getImgInfo($imgSrc);
                 $createFunc = 'imagecreatefrom' . $imgSrcInfo['type'];
                 $imgSrcRes = $createFunc($imgSrc);
@@ -240,8 +248,8 @@ class Image implements \Techo\Image\IImage
     {
         if (is_file($imgSrc)) {
             $imgInfo = self::getImgInfo($imgSrc);
-            $srcWPos = self::validateNumber($srcWPos, array('min' => 0, 'max' => $imgInfo['width'] ));
-            $srcHPos = self::validateNumber($srcHPos, array('min' => 0, 'max' => $imgInfo['height'] ));
+            $srcWPos = self::_validateNumber($srcWPos, array('min' => 0, 'max' => $imgInfo['width'] ));
+            $srcHPos = self::_validateNumber($srcHPos, array('min' => 0, 'max' => $imgInfo['height'] ));
             $srcWidth = $dstWidth + $srcWPos > $imgInfo['width'] ? $imgInfo['width'] - $srcWPos : $dstWidth;
             $srcHeight = $dstHeight + $srcHPos > $imgInfo['height'] ? $imgInfo['height'] - $srcHPos : $dstHeight;
             $imgType = $imgInfo['type'];
@@ -286,9 +294,9 @@ class Image implements \Techo\Image\IImage
 	        $createDstFunc = 'imagecreatefrom' . $imgDstInfo['type'];
 	        $createSrcFunc = 'imagecreatefrom' . $imgSrcInfo['type'];
 	        if (function_exists($createDstFunc) && function_exists($createSrcFunc)) { 
-	            $dstWPos = $this->validateNumber($dstWPos, array('min' => 0, 'max' => $imgDstInfo['width']));
-	            $dstHPos = $this->validateNumber($dstHPos, array('min' => 0, 'max' => $imgDstInfo['height']));
-	            $pct = $this->validateNumber($pct, array('min' => 0, 'max' => 100));
+	            $dstWPos = $this->_validateNumber($dstWPos, array('min' => 0, 'max' => $imgDstInfo['width']));
+	            $dstHPos = $this->_validateNumber($dstHPos, array('min' => 0, 'max' => $imgDstInfo['height']));
+	            $pct = $this->_validateNumber($pct, array('min' => 0, 'max' => 100));
 	            $imgDstRes = $createDstFunc($imgDst);
 	            $imgSrcRes = $createSrcFunc($imgSrc);
 	            imagecopymerge($imgDstRes, $imgSrcRes, $dstWPos, $dstHPos, 0, 0, $imgSrcInfo['width'], $imgSrcInfo['height'], $pct);
