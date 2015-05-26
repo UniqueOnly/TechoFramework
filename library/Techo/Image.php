@@ -180,7 +180,7 @@ class Image implements \Techo\Image\IImage
      * @param number $dstHPos 添加图在底图的y轴坐标
      * @param number $pct 添加比重（添加后显示透明度)
      * @throws \Techo\Image\Exception
-     * @return boolean
+     * @return \Techo\Image
      */
     public function merge($imgSrc, $dstWPos = 0, $dstHPos = 0, $pct = 0)
     {
@@ -194,24 +194,24 @@ class Image implements \Techo\Image\IImage
                 $imgSrcRes = $createFunc($imgSrc);
                 imagecopymerge($this->_resource, $imgSrcRes, $dstWPos, $dstHPos, 0, 0, $imgSrcInfo['width'], $imgSrcInfo['height'], $pct);
                 imagedestroy($imgSrcRes);
-                return true;
+                return $this;
             } else {
-                throw new \Techo\Image\Exception("The Source image isn't exist!");
+                throw new \Techo\Image\Exception("The destination image isn't exist!");
             }
         } else {
-            throw new \Techo\Image\Exception("The destination image isn't exist!");
+            throw new \Techo\Image\Exception("The source image isn't exist!");
         }
     }
 
     /**
      * 获取图片信息
-     * 
+     *
      * @static
      * @access public
      * @param string $imgSrc 图片路径
      * @return multitype:string unknown Ambigous <>
      */
-	public static function getImgInfo($imgSrc)
+    public static function getImgInfo($imgSrc)
     {
         $info = getimagesize($imgSrc);
         return array(
@@ -235,7 +235,6 @@ class Image implements \Techo\Image\IImage
      * @param number $dstHeight 目标图片高度
      * @param string $path 目标保存路径
      * @throws \Techo\Image\Exception
-     * @return boolean
      */
     public static function toResize($imgSrc, $srcWPos = 0, $srcHPos = 0, $dstWidth = 0, $dstHeight = 0, $path = null)
     {
@@ -258,7 +257,6 @@ class Image implements \Techo\Image\IImage
                 $dstFunc($dstImg, $path);
                 imagedestroy($img);
                 imagedestroy($dstImg);
-                return true;
             } else {
                 throw new \Techo\Image\Exception("The image type can't be operated!");
             }
@@ -270,20 +268,65 @@ class Image implements \Techo\Image\IImage
     /**
      * 合并图片、水印图片
      *
+     * @static
      * @access public
      * @param string $imgSrc 要添加的图片
      * @param string $imgDst 底图
      * @param number $dstWPos 添加图在底图的x轴坐标
      * @param number $dstHPos 添加图在底图的y轴坐标
      * @param number $pct 添加比重（添加后显示透明度)
+     * @param boolean $output 是否输出
      * @throws \Techo\Image\Exception
-     * @return boolean
      */
-	public static function toMerge($imgSrc, $imgDst, $dstWPos = 0, $dstHPos = 0, $pct = 0)
+	public static function toMerge($imgSrc, $imgDst, $dstWPos = 0, $dstHPos = 0, $pct = 0, $output = true)
 	{
+	    if (is_file($imgSrc) && is_file($imgDst)) {
+	        $imgDstInfo = self::getImgInfo($imgDst);
+	        $imgSrcInfo = self::getImgInfo($imgSrc);
+	        $createDstFunc = 'imagecreatefrom' . $imgDstInfo['type'];
+	        $createSrcFunc = 'imagecreatefrom' . $imgSrcInfo['type'];
+	        if (function_exists($createDstFunc) && function_exists($createSrcFunc)) { 
+	            $dstWPos = $this->validateNumber($dstWPos, array('min' => 0, 'max' => $imgDstInfo['width']));
+	            $dstHPos = $this->validateNumber($dstHPos, array('min' => 0, 'max' => $imgDstInfo['height']));
+	            $pct = $this->validateNumber($pct, array('min' => 0, 'max' => 100));
+	            $imgDstRes = $createDstFunc($imgDst);
+	            $imgSrcRes = $createSrcFunc($imgSrc);
+	            imagecopymerge($imgDstRes, $imgSrcRes, $dstWPos, $dstHPos, 0, 0, $imgSrcInfo['width'], $imgSrcInfo['height'], $pct);
+	            if ($output) {
+	                $outputFunc = 'image' . $imgDstInfo['type'];
+	                header('Content-type:' . $imgDstInfo['mime']);
+	                $outputFunc($imgDstRes);
+	            }
+	            imagedestroy($imgDstRes);
+	            imagedestroy($imgSrcRes);
+	        } else {
+	            throw new \Techo\Image\Exception("The source or destination image type can't be operated!");
+	        }
+	    } else {
+	        throw new \Techo\Image\Exception("The source or destination image isn't exist!");
+	    }
 	}
 
-
+	/**
+	 * 输出图片
+	 *
+	 * @static
+	 * @access public
+	 * @param $imgSrc 图片路径
+	 * @throws \Techo\Image\Exception
+	 */
+	public static function toOutput($imgSrc)
+	{
+	    if (is_file($imgSrc)) {
+	        $imgInfo = self::getImgInfo($imgSrc);
+	        header('Content-type:' . $this->_imgInfo['mime']);
+	        $func = 'image' . $this->_imgInfo['type'];
+	        $func($imgSrc);
+	    } else {
+	        throw new \Techo\Image\Exception("No image can be operated!");
+	    }
+	
+	}
     
     /**
      * 析构函数
