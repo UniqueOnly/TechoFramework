@@ -87,6 +87,17 @@ class Image implements \Techo\Image\IImage
         }
         
     }
+    
+    private function validateNumber($src, $range = array())
+    {
+        if ($src >= $range['min'] && $src <= $range['max']) {
+            return $src;
+        } elseif ($src < $range['min']) {
+            return $range['min'];
+        } elseif ($src > $range['max']) {
+            return $range['max'];
+        }
+    }
 
     /**
      * 缩放、裁剪图片
@@ -102,8 +113,8 @@ class Image implements \Techo\Image\IImage
     public function resize($srcWPos = 0, $srcHPos = 0, $dstWidth = 0, $dstHeight = 0, $path = null)
     {
         if ($this->_resource) {
-            $srcWPos = $srcWidth > $this->_imgInfo['width'] ? $this->_imgInfo['width'] : $srcWPos;
-            $srcHPos = $srcWidth > $this->_imgInfo['height'] ? $this->_imgInfo['height'] : $srcHPos;
+            $srcWPos = $this->validateNumber($srcWPos, array('min' => 0, 'max' => $this->_imgInfo['width']));
+            $srcHPos = $this->validateNumber($srcHPos, array('min' => 0, 'max' => $this->_imgInfo['height']));
             $srcWidth = $dstWidth + $srcWPos > $this->_imgInfo['width'] ? $this->_imgInfo['width'] - $srcWPos : $dstWidth;
             $srcHeight = $dstHeight + $srcHPos > $this->_imgInfo['height'] ? $this->_imgInfo['height'] - $srcHPos : $dstHeight;
             $dstImg = imagecreatetruecolor($dstWidth, $dstHeight);
@@ -147,16 +158,48 @@ class Image implements \Techo\Image\IImage
     
     /**
      * 销毁图片资源
-     * 
+     *
      * @access public
      */
-    public function destroy()
+    public function destory()
     {
         if ($this->_resource) {
             imagedestroy($this->_resource);
             $this->_resource = null;
             $this->_path = null;
             $this->_imgInfo = null;
+        }
+    }
+    
+    /**
+     * 合并图片、水印图片
+     * 
+     * @access public
+     * @param string $imgSrc 要添加的图片
+     * @param number $dstWPos 添加图在底图的x轴坐标
+     * @param number $dstHPos 添加图在底图的y轴坐标
+     * @param number $pct 添加比重（添加后显示透明度)
+     * @throws \Techo\Image\Exception
+     * @return boolean
+     */
+    public function merge($imgSrc, $dstWPos = 0, $dstHPos = 0, $pct = 0)
+    {
+        if (is_file($imgSrc)) {
+            if ($this->_resource) {
+                $dstWPos = $this->validateNumber($dstWPos, array('min' => 0, 'max' => $this->_imgInfo['width']));
+                $dstHPos = $this->validateNumber($dstHPos, array('min' => 0, 'max' => $this->_imgInfo['height']));
+                $pct = $this->validateNumber($pct, array('min' => 0, 'max' => 100));
+                $imgSrcInfo = self::getImgInfo($imgSrc);
+                $createFunc = 'imagecreatefrom' . $imgSrcInfo['type'];
+                $imgSrcRes = $createFunc($imgSrc);
+                imagecopymerge($this->_resource, $imgSrcRes, $dstWPos, $dstHPos, 0, 0, $imgSrcInfo['width'], $imgSrcInfo['height'], $pct);
+                imagedestroy($imgSrcRes);
+                return true;
+            } else {
+                throw new \Techo\Image\Exception("The Source image isn't exist!");
+            }
+        } else {
+            throw new \Techo\Image\Exception("The destination image isn't exist!");
         }
     }
 
@@ -198,8 +241,8 @@ class Image implements \Techo\Image\IImage
     {
         if (is_file($imgSrc)) {
             $imgInfo = self::getImgInfo($imgSrc);
-            $srcWPos = $srcWidth > $imgInfo['width'] ? $imgInfo['width'] : $srcWPos;
-            $srcHPos = $srcWidth > $imgInfo['height'] ? $imgInfo['height'] : $srcHPos;
+            $srcWPos = self::validateNumber($srcWPos, array('min' => 0, 'max' => $imgInfo['width'] ));
+            $srcHPos = self::validateNumber($srcHPos, array('min' => 0, 'max' => $imgInfo['height'] ));
             $srcWidth = $dstWidth + $srcWPos > $imgInfo['width'] ? $imgInfo['width'] - $srcWPos : $dstWidth;
             $srcHeight = $dstHeight + $srcHPos > $imgInfo['height'] ? $imgInfo['height'] - $srcHPos : $dstHeight;
             $imgType = $imgInfo['type'];
@@ -223,6 +266,24 @@ class Image implements \Techo\Image\IImage
             throw new \Techo\Image\Exception("The image isn't exist!");
         }  
     }
+	
+    /**
+     * 合并图片、水印图片
+     *
+     * @access public
+     * @param string $imgSrc 要添加的图片
+     * @param string $imgDst 底图
+     * @param number $dstWPos 添加图在底图的x轴坐标
+     * @param number $dstHPos 添加图在底图的y轴坐标
+     * @param number $pct 添加比重（添加后显示透明度)
+     * @throws \Techo\Image\Exception
+     * @return boolean
+     */
+	public static function toMerge($imgSrc, $imgDst, $dstWPos = 0, $dstHPos = 0, $pct = 0)
+	{
+	}
+
+
     
     /**
      * 析构函数

@@ -26,7 +26,7 @@ abstract class Base implements \Techo\Validate\IValidate
             return $this;
         }
         if (array_key_exists($key, $this->_messages)) {
-            throw new Techo_Validate_Exception("The Key:$key is already exists");
+            throw new \Techo\Validate\Exception("The Key:$key is already exists");
         }
         $this->_messages[$key] = $message;
         return $this;
