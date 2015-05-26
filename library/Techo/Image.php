@@ -92,8 +92,8 @@ class Image implements \Techo\Image\IImage
      * 校验数值类型
      * 
      * @access protected
-     * @param number $src
-     * @param number $range
+     * @param number $src 源数据
+     * @param number $range 校验范围
      * @return number
      */
     protected function _validateNumber($src, $range = array())
@@ -217,7 +217,7 @@ class Image implements \Techo\Image\IImage
      * @static
      * @access public
      * @param string $imgSrc 图片路径
-     * @return multitype:string unknown Ambigous <>
+     * @return array
      */
     public static function getImgInfo($imgSrc)
     {
