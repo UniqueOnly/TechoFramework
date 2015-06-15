@@ -28,6 +28,7 @@ class Server
     {
         $this->loadConfig();
         $this->startAutoLoad();
+        \Techo\Router::init();
     }
     
     private function autoLoad($path)
