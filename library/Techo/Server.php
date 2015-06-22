@@ -1,15 +1,21 @@
 <?php
-
 namespace Techo;
+require_once APP_PATH . 'library/Techo/Exception.php';
+require_once APP_PATH . 'library/Techo/Config.php';
 class Server
 {
     
     protected $_configPool = array();
     
-    private function loadConfig()
+    private function readConfig()
     {
         $config = new \Techo\Config(APP_CONFIG);
         $this->_configPool = $config->getAll();
+    }
+    
+    private function loadAppConfig()
+    {
+        
     }
     
     private function startAutoLoad()
@@ -26,7 +32,7 @@ class Server
     
     public function run()
     {
-        $this->loadConfig();
+        $this->readConfig();
         $this->startAutoLoad();
         ob_start();
         \Techo\Router::init();
