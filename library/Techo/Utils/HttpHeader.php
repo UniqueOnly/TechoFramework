@@ -12,12 +12,15 @@ class HttpHeader
      */
     public static function expire($timeout = 0)
     {
-        header ('Last-Modified: ' . gmdate (DATE_RFC822, time() + $timeout));
-        header ('Expires: ' . gmdate (DATE_RFC822, time() + $timeout));
+        $expire = time() + $timeout;
+        $expireGMT = gmdate('D, d M Y H:i:s', $expire) . ' GMT';
+        header ('Last-Modified: ' . $expireGMT);
+        header ('Expires: ' . $expireGMT);
         header ('Cache-Control: max-age=' . $timeout);
+        header("Pragma: cache");
         if ($timeout < 0) {
             header('Cache-Control: no-cache, must-revalidate');
             header('Pramga: no-cache');
-        }  
+        }
     }
 }
