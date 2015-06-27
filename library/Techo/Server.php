@@ -13,11 +13,6 @@ class Server
         $this->_configPool = $config->getAll();
     }
     
-    private function loadAppConfig()
-    {
-        
-    }
-    
     private function startAutoLoad()
     {
         try {
@@ -35,7 +30,9 @@ class Server
         $this->readConfig();
         $this->startAutoLoad();
         ob_start();
-        \Techo\Router::init();
+        if (!empty($this->_configPool['router'])) {
+            \Techo\Router::init($this->_configPool['router']);
+        }
         ob_end_flush();
     }
     

@@ -1,4 +1,5 @@
 <?php
 return array(
-    'debug' => true
+    'debug' => true,
+    'public' => APP_PATH . 'public/'
 );
