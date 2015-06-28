@@ -16,8 +16,7 @@ class HttpHeader
             $expire = time() + $timeout;
             $expireGMT = gmdate('D, d M Y H:i:s', $expire) . ' GMT';
             if ($timeout == 0) {
-                header('Cache-Control: no-cache');
-                header('Cache-Control ：no-store');
+                header('Cache-Control: no-cache, no-store');
                 header('Pramga: no-cache');
                 header('Expires：1L');
             } else {
