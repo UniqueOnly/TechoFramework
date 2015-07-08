@@ -3,11 +3,22 @@ namespace Techo;
 
 class Router
 {
-    private static $_uri = null;
+
     public static function init($config)
     {
-        self::$_uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        echo self::$_uri;
+        $uri = \Techo\Request::uri();
+        $matchResult = self::match($config, $uri);
+        
+    }
+    
+    public static function match($routers, $uri)
+    {
+        
+    }
+    
+    public static function dispatch(\Techo\Dispatcher $dispatcher)
+    {
+        
     }
     
 }
