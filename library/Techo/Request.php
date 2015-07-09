@@ -11,12 +11,13 @@ class Request
      */
     public static function uri()
     {
-        return urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        return empty($_SERVER['REQUEST_URI']) ? false : urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
-    
+
     /**
-     * private
-     * @access static
+     *
+     * @access private
+     * @access
      * @param string $method
      * @param string|array $name
      * @param mixed $default
@@ -30,7 +31,8 @@ class Request
         switch ($method) {
             case 'get' : $params = $_GET; break;
             case 'post' : $params = $_POST; break;
-            default: throw new \Techo\Exception('Unknown request method'); break;
+            case 'put' :  parse_str(file_get_contents('php://input'), $params); break;
+            default: throw new \Techo\Exception('Unsupport request method get params'); break;
         }
         if (is_array($name)) {
             $array = array();
@@ -42,7 +44,7 @@ class Request
             return empty($params[$name]) ? $default : $params[$name];
         }
     }
-    
+
     /**
      * get参数获取
      * @access public
@@ -55,7 +57,7 @@ class Request
     {
         return self::requestParam('get', $name, $default);
     }
-    
+
     /**
      * post参数获取
      * @access public
@@ -68,7 +70,20 @@ class Request
     {
         return self::requestParam('post', $name, $default);
     }
-    
+
+    /**
+     * put参数获取
+     * @access public
+     * @static
+     * @param string|array $name
+     * @param mixed $default
+     * @return mixed
+     */
+    public static function put($name, $default = null)
+    {
+        return self::requestParam('put', $name, $default);
+    }
+
     /**
      * 用户代理字符串
      * @access public
@@ -80,7 +95,7 @@ class Request
     {
         return empty($_SERVER['HTTP_USER_AGENT']) ? $default : $_SERVER['HTTP_USER_AGENT'];
     }
-    
+
     /**
      * 用户请求地址IP
      * @access public

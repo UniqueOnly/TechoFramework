@@ -4,15 +4,15 @@ require_once APP_PATH . 'library/Techo/Exception.php';
 require_once APP_PATH . 'library/Techo/Config.php';
 class Server
 {
-    
+
     protected $_configPool = array();
-    
+
     private function readConfig()
     {
         $config = new \Techo\Config(APP_CONFIG);
         $this->_configPool = $config->getAll();
     }
-    
+
     private function startAutoLoad()
     {
         try {
@@ -22,20 +22,23 @@ class Server
             }
         } catch (\Techo\Exception $e) {
             $e->getMessage();
-        } 
+        }
     }
-    
+
     public function run()
     {
         $this->readConfig();
         $this->startAutoLoad();
         ob_start();
+        /*
+         * 开启路由
+         */
         if (!empty($this->_configPool['router'])) {
             \Techo\Router::init($this->_configPool['router']);
         }
         ob_end_flush();
     }
-    
+
     private function autoLoad($path)
     {
         if (is_dir($path)) {
