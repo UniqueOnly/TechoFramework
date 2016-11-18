@@ -55,7 +55,7 @@ class Client
         if (!extension_loaded('curl')) {
             throw new \Techo\Http\Exception('CURL extension may be not be installed');
         }
-        $this->_requests = $requests;
+        $this->_requests[] = $requests;
     }
     
     /**
