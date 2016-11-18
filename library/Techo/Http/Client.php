@@ -1,7 +1,7 @@
 <?php
 /**
  * Http客户端请求
- * 
+ *
  * @author unique@hiunique.com
  * @copyright 2015-1-26
  */
@@ -10,31 +10,31 @@ class Client
 {
     /**
      * 请求队列
-     * 
+     *
      * @access private
      * @var array
      */
     private $_requests = array();
-    
+
     /**
      * 超时
-     * 
+     *
      * @access private
      * @var float
      */
     private $_timeout = 0.5;
-    
+
     /**
      * 请求头
-     * 
+     *
      * @access private
      * @var array
      */
     private $_headers = array();
-    
+
     /**
      * 设置
-     * 
+     *
      * @access private
      * @var array
      */
@@ -43,10 +43,10 @@ class Client
         CURLOPT_CONNECTTIMEOUT => 20,
         CURLOPT_TIMEOUT        => 20
     );
-    
+
     /**
      * 构造器
-     * 
+     *
      * @access public
      * @param array $requests 请求队列
      */
@@ -55,12 +55,12 @@ class Client
         if (!extension_loaded('curl')) {
             throw new \Techo\Http\Exception('CURL extension may be not be installed');
         }
-        $this->_requests = $requests;
+        $this->_requests[] = $requests;
     }
-    
+
     /**
      * 获取设置的超时
-     * 
+     *
      * @access public
      * @return float
      */
@@ -68,10 +68,10 @@ class Client
     {
         return $this->_timeout;
     }
-    
+
     /**
      * 设置时间
-     * 
+     *
      * @access public
      * @param float $timeout 超时
      * @return \Techo\Http\Client
@@ -81,10 +81,10 @@ class Client
         $this->_timeout = $timeout;
         return $this;
     }
-    
+
     /**
      * 获取设置的设置
-     * 
+     *
      * @access public
      * @return array
      */
@@ -92,10 +92,10 @@ class Client
     {
         return $this->_options;
     }
-    
+
     /**
      * 设置设置
-     * 
+     *
      * @access public
      * @param array $options 设置
      * @return \Techo\Http\Client
@@ -105,10 +105,10 @@ class Client
         $this->_options = $this->_options + $options;
         return $this;
     }
-    
+
     /**
      * 获取设置的请求头
-     * 
+     *
      * @access public
      * @return array
      */
@@ -116,10 +116,10 @@ class Client
     {
         return $this->_headers;
     }
-    
+
     /**
      * 设置请求头
-     * 
+     *
      * @access public
      * @param array $headers 请求头
      * @return \Techo\Http\Client
@@ -129,10 +129,10 @@ class Client
         $this->_headers = $this->_headers + $headers;
         return $this;
     }
-    
+
     /**
      * 向队列中加入一个GET请求
-     * 
+     *
      * @access public
      * @param string $url url网址
      * @param array $options 设置
@@ -143,10 +143,10 @@ class Client
     {
         return $this->add($url, "GET", null, $options, $headers);
     }
-    
+
     /**
      * 向队列中加入一个POST请求
-     * 
+     *
      * @access public
      * @param string $url url网址
      * @param string $postData POST数据
@@ -158,10 +158,10 @@ class Client
     {
         return $this->add($url, "POST", $postData, $options, $headers);
     }
-    
+
     /**
      * 向队列中加入一个Request请求
-     * 
+     *
      * @access public
      * @param \Techo\Http\Request $request 请求对象
      * @return \Techo\Http\Client
@@ -171,10 +171,10 @@ class Client
         $this->_requests[] = $request;
         return $this;
     }
-    
+
     /**
      * 向队列中加入一个Request请求
-     * 
+     *
      * @access public
      * @param string $url url网址
      * @param string $method 请求类型
@@ -188,10 +188,10 @@ class Client
         $this->_requests[] = new Request($url, $method, $postData, $options, $headers);
         return $this;
     }
-    
+
     /**
      * 获取指定索引的Request
-     * 
+     *
      * @access public
      * @param int $key 索引
      * @return array|false
@@ -203,10 +203,10 @@ class Client
         }
         return false;
     }
-    
+
     /**
      * 获取指定Request的索引
-     * 
+     *
      * @param \Techo\Http\Request $request 请求对象
      * @return int|false
      */
@@ -214,11 +214,11 @@ class Client
     {
         return array_search($request, $this->_requests);
     }
-    
+
     /**
      * 执行Http请求操作
-     * 
-     * @access 
+     *
+     * @access
      * @throws \Techo\Http\Exception
      * @return array 关联数组content，info，error
      */
@@ -231,10 +231,10 @@ class Client
         }
         throw new Exception('Must Run At Least One Http Request');
     }
-    
+
     /**
      * 获取设置
-     * 
+     *
      * @access private
      * @param \Techo\Http\Request $request 请求对象
      * @return array
@@ -269,10 +269,10 @@ class Client
         }
         return $options;
     }
-    
+
     /**
      * 单例Http请求
-     * 
+     *
      * @access private
      * @return array
      */
@@ -292,10 +292,10 @@ class Client
             'error' => $error
         );
     }
-    
+
     /**
      * 并发Http请求
-     * 
+     *
      * @access private
      * @return array
      */
@@ -337,10 +337,10 @@ class Client
         curl_multi_close($mh);
         return $responses;
     }
-    
+
     /**
      * 析构函数
-     * 
+     *
      * @access public
      */
     public function __destruct()
