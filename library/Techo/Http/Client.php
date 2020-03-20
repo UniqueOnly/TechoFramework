@@ -50,12 +50,14 @@ class Client
      * @access public
      * @param array $requests 请求队列
      */
-    public function __construct(array $requests = array())
+    public function __construct($requests = null)
     {
         if (!extension_loaded('curl')) {
             throw new \Techo\Http\Exception('CURL extension may be not be installed');
         }
-        $this->_requests[] = $requests;
+        if ($requests) {
+            $this->_requests[] = $requests;
+        }
     }
 
     /**
